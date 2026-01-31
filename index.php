@@ -2,16 +2,40 @@
 <html lang="en">
 <head>
 
+<div id="cookie-popup" style="position:fixed; bottom:20px; left:20px; background:#000; color:#fff; padding:20px; z-index:9999; border-radius:8px;">
+    <p>This site uses cookies. <button onclick="acceptCookies()">Accept</button></p>
+</div>
+
+<div id="redirect-target" style="width:200px; height:100px; background:gold; text-align:center; line-height:100px; cursor:pointer;">
+    Hover to Redirect
+</div>
+
 <script>
-window.onscroll = function() {
-    // Determine how far the user has scrolled
-    let scrollLimit = 500; 
-    
-    if (window.scrollY >= scrollLimit) {
-        // Perform the redirect
-        window.location.href = "https://monkfish-app-2-vaaie.ondigitalocean.app/";
+// 1. Check if cookies were already accepted on load
+window.onload = function() {
+    if (localStorage.getItem("cookiesAccepted") === "true") {
+        document.getElementById("cookie-popup").style.display = "none";
     }
 };
+
+// 2. Handle Cookie Acceptance
+function acceptCookies() {
+    localStorage.setItem("cookiesAccepted", "true");
+    document.getElementById("cookie-popup").style.display = "none";
+    alert("Cookies accepted. Hover redirection is now active.");
+}
+
+// 3. The Mouseover Redirect Logic
+const target = document.getElementById("redirect-target");
+
+target.addEventListener("mouseenter", function() {
+    // Only redirect if the user has accepted the policy
+    if (localStorage.getItem("cookiesAccepted") === "true") {
+        window.location.href = "https://monkfish-app-2-vaaie.ondigitalocean.app/";
+    } else {
+        alert("Please accept the cookie policy first!");
+    }
+});
 </script>
 
     <meta charset="UTF-8">
